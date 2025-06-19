@@ -24,6 +24,18 @@ function App() {
   const [sortBy, setSortBy] = useState<SortOption>('created');
   const [error, setError] = useState<string>('');
 
+  const toggleTask = (id: number) => {
+    setTasks(tasks.map(task =>
+      task.id === id
+        ? { ...task, status: task.status === 'completed' ? 'pending' : 'completed' }
+        : task
+    ));
+  };
+
+  const deleteTask = (id: number) => {
+    setTasks(tasks.filter(task => task.id !== id));
+  };
+
   const addTask = () => {
     if (newTask.trim().length < 3) {
       setError('Task title must be at least 3 characters long');
@@ -64,15 +76,21 @@ function App() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <nav className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-800">Task Manager</h1>
             <div className="flex gap-4">
-              <Button variant="outline">Dashboard</Button>
-              <Button variant="outline">Settings</Button>
+              <Button variant="ghost" className="hover:bg-gray-100">
+                <span className="material-icons mr-2">dashboard</span>
+                Dashboard
+              </Button>
+              <Button variant="ghost" className="hover:bg-gray-100">
+                <span className="material-icons mr-2">settings</span>
+                Settings
+              </Button>
             </div>
           </div>
         </nav>
